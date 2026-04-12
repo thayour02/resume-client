@@ -1,8 +1,13 @@
+import Nav from "@/components/Navbar"
+import { Outlet } from "react-router-dom"
 
 const Layout = () => {
     return (
         <div>
-            <h1>Layout</h1>
+            <div className="bg-gray-50 min-h-screen">
+                <Nav/>
+                <Outlet/>
+            </div>
         </div>
     )
 }
