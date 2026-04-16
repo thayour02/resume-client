@@ -35,7 +35,7 @@ export type Resume = {
         type?: string;
     }>;
     skills: string[];
-    template: "classNameic" | "modern" | "minimal" | "minimal-image";
+    template: "classic" | "modern" | "minimal" | "minimal-image" | "creative" | "executive" | "timeline" | "two-column" | "compact" | "sidebar" | "elegant" | "tech" | "academic";
     accent_color: string;
     public: boolean;
 }
@@ -45,21 +45,21 @@ export const dummyData: Resume[] = [
         id: "tayo",
         title: "Engineer",
         personal_info: {
-            full_name: "",
-            email: "",
-            phone: "",
-            location: "",
-            profession: "",
-            linkedin: "",
-            website: "",
+            full_name: "Temitayo",
+            email: "tayo@gmail.com",
+            phone: "08064675460",
+            location: "Nigeria",
+            profession: "Software engineer",
+            linkedin: "tay.com",
+            website: "tayo.com",
             image: undefined
         },
-        professional_summary: "",
+        professional_summary: "well oriented",
         experience: [],
         education: [],
         project: [],
         skills: [],
-        template: "classNameic",
+        template: "classic",
         accent_color: "#3B82F6",
         public: false
     }
@@ -76,7 +76,7 @@ export type Section = {
 export const section : Section[] = [
     {id:"personal", name:"Perosnal Info", icon: User},
     {id:"summary", name:"summary", icon: FileText},
-    {id:"experience", name:"experince", icon: Briefcase},
+    {id:"experience", name:"experience", icon: Briefcase},
     {id:"education", name:"education", icon: GraduationCap},
     {id:"project", name:"project", icon:    FolderClockIcon},
     {id:"skills", name:"skills", icon: Sparkles}

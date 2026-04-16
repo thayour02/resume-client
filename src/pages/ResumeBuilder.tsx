@@ -1,32 +1,88 @@
 import { useEffect, useState } from "react"
-import { data, Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { dummyData, section } from "@/assets/utils";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
-import type { Resume, Section } from "@/assets/utils"
-import Personal from "@/components/home/p_info";
-import Preview from "@/components/home/resumePreview";
+import type { Resume } from "@/assets/utils"
+import Personal from "@/components/p_info";
+import Preview from "@/components/resumePreview";
 import { TemplateSelector } from "@/components/templateselector";
+import { Color } from "@/components/colorPicker";
+import Summary from "@/components/summmary";
+import Experience from "@/components/experience";
+import Education from "@/components/education";
+import Projects from "@/components/projects";
+import Skills from "@/components/skills";
 
 const templates = [
     {
         id: "classic",
         name: 'Classic',
-        description: 'A clean and professional template'
+        description: 'Traditional professional layout'
     },
     {
         id: "minimal",
         name: 'Minimal',
-        description: 'A clean and professional template'
+        description: 'Clean and simple design'
     },
     {
         id: "minimal-image",
         name: 'Minimal Image',
-        description: 'A clean and professional template'
+        description: 'Minimal with profile photo'
     },
     {
         id: "modern",
         name: 'Modern',
-        description: 'A modern and sleek template'
+        description: 'Contemporary sleek design'
+    },
+    {
+        id: "executive",
+        name: 'Executive',
+        description: 'Elegant corporate style'
+    },
+    {
+        id: "creative",
+        name: 'Creative',
+        description: 'Bold artistic layout'
+    },
+    {
+        id: "timeline",
+        name: 'Timeline',
+        description: 'Career journey focused'
+    },
+    {
+        id: "compact",
+        name: 'Compact',
+        description: 'Dense single-page layout'
+    },
+    {
+        id: "two-column",
+        name: 'Two Column',
+        description: 'Sidebar with main content'
+    },
+    {
+        id: "bold",
+        name: 'Bold',
+        description: 'Dark theme high impact'
+    },
+    {
+        id: "sidebar",
+        name: 'Sidebar Pro',
+        description: 'Professional sidebar layout'
+    },
+    {
+        id: "elegant",
+        name: 'Elegant',
+        description: 'Sophisticated typography focus'
+    },
+    {
+        id: "tech",
+        name: 'Tech Modern',
+        description: 'Clean tech industry style'
+    },
+    {
+        id: "academic",
+        name: 'Academic',
+        description: 'Research and education focused'
     },
 ];
 
@@ -40,13 +96,15 @@ const ResumeBuilder = () => {
         education: [],
         project: [],
         skills: [],
-        template: "classNameic",
+        template: "classic",
         accent_color: "#3B82F6",
         public: false
     });
     const { resumeId } = useParams()
+
     const existingResume = async () => {
         const resume = dummyData.find(resume => resume.id === resumeId)
+        console.log(resume?.personal_info)
         if (resume) {
             setResumeData(resume)
             document.title = resume.title
@@ -83,15 +141,15 @@ const ResumeBuilder = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 py-8">
-                <div className="grid lg:grid-cols-3 gap-8">
+                <div className="grid lg:grid-cols-5 gap-8">
                     {/* left side - form */}
-                    <div className="lg:col-span-1">
+                    <div className="lg:col-span-2">
                         {/* Progress indicator */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                             <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
-                                <div 
+                                <div
                                     className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500 ease-out"
-                                    style={{ width: `${((activeSectionIndex + 1) / section.length) * 100}%` }} 
+                                    style={{ width: `${((activeSectionIndex + 1) / section.length) * 100}%` }}
                                 />
                             </div>
                             <div className="flex items-center justify-between">
@@ -100,7 +158,7 @@ const ResumeBuilder = () => {
                                 </span>
                                 <div className="flex items-center gap-2">
                                     {activeSectionIndex !== 0 && (
-                                        <button 
+                                        <button
                                             onClick={() => setActiveSectionIndex(prevIndex => Math.max(prevIndex - 1, 0))}
                                             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                                             disabled={activeSectionIndex === 0}
@@ -109,13 +167,12 @@ const ResumeBuilder = () => {
                                             Previous
                                         </button>
                                     )}
-                                    <button 
+                                    <button
                                         onClick={() => setActiveSectionIndex(prevIndex => Math.min(prevIndex + 1, section.length - 1))}
-                                        className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                            activeSectionIndex === section.length - 1 
-                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                        className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeSectionIndex === section.length - 1
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                                 : 'bg-blue-600 text-white hover:bg-blue-700'
-                                        }`}
+                                            }`}
                                         disabled={activeSectionIndex === section.length - 1}
                                     >
                                         Next
@@ -127,18 +184,22 @@ const ResumeBuilder = () => {
                         </div>
 
                         {/* {template selection} */}
-                        <div>
-                            <TemplateSelector 
-                                onTemplateChange={(template) => setResumeData(prev => ({...prev, template: template.id as Resume['template']}))}
+                        <div className="flex items-center gap-2">
+                            <TemplateSelector
+                                onTemplateChange={(template) => setResumeData(prev => ({ ...prev, template: template.id as Resume['template'] }))}
                                 selectedTemplate={resumeData.template ? templates.find(t => t.id === resumeData.template) : undefined}
+                            />
+
+                            <Color selectedColor={{ name: "custom", value: resumeData.accent_color }}
+                                onChange={(color) => setResumeData(prev => ({ ...prev, accent_color: color.value as Resume['accent_color'] }))}
                             />
                         </div>
                         {/* Section Title */}
-                        <div className="mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        <div className="mt-10 space-y-1">
+                            <h2 className="text-2xl font-bold text-gray-900 ">
                                 {activesection.name}
                             </h2>
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 mb-2">
                                 {activesection.id === 'personal' && 'Add your personal information to get started'}
                             </p>
                         </div>
@@ -146,22 +207,53 @@ const ResumeBuilder = () => {
                         {/* Form section */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                             {activesection.id === 'personal' && (
-                                <Personal 
-                                    data={resumeData?.personal_info} 
-                                    onChange={(data) => setResumeData(prev => ({...prev, personal_info: data}))}
+                                <Personal
+                                    data={resumeData?.personal_info}
+                                    onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))}
                                     removeBackground={removeBackground}
                                     setRemoveBackground={setRemoveBackground}
+                                />
+                            )}
+                            {activesection.id === 'summary' && (
+                                <Summary
+                                    data={resumeData?.professional_summary}
+                                    onChange={(data) => setResumeData(prev => ({ ...prev, professional_summary: data }))}
+                                />
+                            )}
+
+                            {activesection.id === 'experience' && (
+                                <Experience
+                                    data={resumeData?.experience}
+                                    onChange={(data) => setResumeData(prev => ({ ...prev, experience: data }))}
+                                />
+                            )}
+
+                            {activesection.id === 'education' && (
+                                <Education
+                                    data={resumeData?.education}
+                                    onChange={(data) => setResumeData(prev => ({ ...prev, education: data }))}
+                                />
+                            )}
+                            {activesection.id === 'project' && (
+                                <Projects
+                                    data={resumeData?.project}
+                                    onChange={(data) => setResumeData(prev => ({ ...prev, project: data }))}
+                                />
+                            )}
+                            {activesection.id === 'skills' && (
+                                <Skills
+                                    data={resumeData?.skills}
+                                    onChange={(data) => setResumeData(prev => ({ ...prev, skills: data }))}
                                 />
                             )}
                         </div>
                     </div>
 
 
-
                     {/* Right side - Preview */}
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-3">
                         <div className="sticky top-6">
-                                <Preview data={resumeData} template={resumeData.template} accent_color={resumeData.accent_color} classes="" />
+                            <Preview data={resumeData} template={resumeData.template} accent_color={resumeData.accent_color} classes="" />
                             {/* Section Navigation */}
                             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Sections</h3>
@@ -170,11 +262,10 @@ const ResumeBuilder = () => {
                                         <button
                                             key={sectionItem.id}
                                             onClick={() => setActiveSectionIndex(index)}
-                                            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                                                index === activeSectionIndex
+                                            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${index === activeSectionIndex
                                                     ? 'bg-blue-50 text-blue-700 border border-blue-200'
                                                     : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                                            }`}
+                                                }`}
                                         >
                                             <sectionItem.icon className="w-5 h-5" />
                                             <span className="text-sm font-medium">{sectionItem.name}</span>

@@ -17,22 +17,52 @@ export const TemplateSelector = ({ onTemplateChange, selectedTemplate: externalS
         {
             id: "classic",
             name: 'Classic',
-            description: 'A clean and professional template'
+            description: 'Traditional professional layout'
         },
         {
             id: "minimal",
             name: 'Minimal',
-            description: 'A clean and professional template'
+            description: 'Clean and simple design'
         },
         {
             id: "minimal-image",
             name: 'Minimal Image',
-            description: 'A clean and professional template'
+            description: 'Minimal with profile photo'
         },
         {
             id: "modern",
             name: 'Modern',
-            description: 'A modern and sleek template'
+            description: 'Contemporary sleek design'
+        },
+        {
+            id: "executive",
+            name: 'Executive',
+            description: 'Elegant corporate style'
+        },
+        {
+            id: "creative",
+            name: 'Creative',
+            description: 'Bold artistic layout'
+        },
+        {
+            id: "timeline",
+            name: 'Timeline',
+            description: 'Career journey focused'
+        },
+        {
+            id: "compact",
+            name: 'Compact',
+            description: 'Dense single-page layout'
+        },
+        {
+            id: "two-column",
+            name: 'Two Column',
+            description: 'Sidebar with main content'
+        },
+        {
+            id: "bold",
+            name: 'Bold',
+            description: 'Dark theme high impact'
         },
     ];
 

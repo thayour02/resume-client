@@ -1,8 +1,9 @@
 import { Mail, Phone, MapPin, Link, Globe } from "lucide-react";
 import type { TemplateProps } from "./ModernTemplate";
 
-const ClassicTemplate = ({ data, accentColor }:TemplateProps) => {
-    const formatDate = (dateStr:string) => {
+
+
+  export const formatDate = (dateStr:string) => {
         if (!dateStr) return "";
         const [year, month] = dateStr.split("-");
         return new Date(parseInt(year), parseInt(month) - 1).toLocaleDateString("en-US", {
@@ -10,6 +11,8 @@ const ClassicTemplate = ({ data, accentColor }:TemplateProps) => {
             month: "short"
         });
     };
+const ClassicTemplate = ({ data, accentColor }:TemplateProps) => {
+
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-white text-gray-800 leading-relaxed">
